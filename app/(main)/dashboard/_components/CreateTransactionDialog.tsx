@@ -1,15 +1,20 @@
 "use client"
 
 import { TransactionType } from "@/lib/types";
-import { ReactNode } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { ReactNode, useCallback } from "react";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CreateTransactionSchema, CreateTransactionSchemaType } from "@/schema/transaction";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import CategoryPicker from "./categoryPicker";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
 interface Props {
     trigger: ReactNode,
     type: TransactionType;
@@ -24,6 +29,9 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 
         }
     })
+    const handleCategoryChange = useCallback((value: string) => {
+        form.setValue("category", value)
+    }, [form])
     return (
         <Dialog>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -70,6 +78,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                 </FormItem>
                             )}
                         />
+
                         <div className="flex items-center justify-between gap2">
                             <FormField
                                 control={form.control}
@@ -78,9 +87,37 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                     <FormItem>
                                         <FormLabel>Category</FormLabel>
                                         <FormControl>
-                                            <CategoryPicker type={type} SuccesCallback={field.onChange} />
+                                            <CategoryPicker type={type} onChange={handleCategoryChange} />
                                         </FormControl>
                                         <FormDescription>Select a category for the transaction</FormDescription>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="date"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Transaction Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button variant={"outline"} className={cn(
+                                                        "w-[200px] pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}>
+                                                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar mode="single" selected={field.value} onSelect={field.onChange} />
+                                            </PopoverContent>
+                                        </Popover>
+                                        
+                                        <FormDescription>Select a category for the transaction</FormDescription>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -89,6 +126,14 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 
                     </form>
                 </Form>
+                <DialogFooter>
+                            {/* <DialogClose asChild>
+                                <Button variant={"secondary"} onClick={() => {
+                                    form.reset()
+                                }}>Cancel</Button>
+                            </DialogClose>
+                            <Button type="submit" disabled={isPending}>{!isPending ? "Create" : <Loader2 className="w-4 h-4 animate-spin" />}</Button> */}
+                        </DialogFooter>
             </DialogContent >
         </Dialog >
     )

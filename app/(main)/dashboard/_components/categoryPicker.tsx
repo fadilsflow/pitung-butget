@@ -1,24 +1,29 @@
 "use client"
 
-import { TransactionType } from "@/lib/types"
-import { useCallback, useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Category } from "@prisma/client"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { CommandInput, CommandList, CommandItem, Command, CommandEmpty, CommandGroup } from "@/components/ui/command"
+import { Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup } from "@/components/ui/command"
 import CreateCategoryDialog from "./CreateCategoryDialog"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { TransactionType } from "@/lib/types"
 
 interface CategoryPickerProps {
     type: TransactionType
-    SuccesCallback: (category: Category) => void
+    onChange: (value: string) => void
 }
 
-function CategoryPicker({ type, SuccesCallback }: CategoryPickerProps) {
+function CategoryPicker({ type, onChange }: CategoryPickerProps) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState<string>("")
+
+    useEffect(() => {
+        if (!value) return;
+        onChange(value)
+    }, [onchange, value])
 
     const categoriesQuery = useQuery({
         queryKey: ["categories", type],
@@ -31,15 +36,15 @@ function CategoryPicker({ type, SuccesCallback }: CategoryPickerProps) {
     const handleSelect = useCallback((category: Category) => {
         setValue(category.name)
         setOpen(false)
-        SuccesCallback(category)
-    }, [setValue, setOpen, SuccesCallback])
+        onChange(category.name)
+    }, [setValue, setOpen, onChange])
 
 
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+                <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
                     {selectedCategory ? <CategoryRow category={selectedCategory} /> : "Select a category"}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -47,7 +52,7 @@ function CategoryPicker({ type, SuccesCallback }: CategoryPickerProps) {
             <PopoverContent className="w-[200px] p-0">
                 <Command>
                     <CommandInput placeholder="Search category" />
-                    <CreateCategoryDialog type={type} SuccesCallback={handleSelect} />
+                    <CreateCategoryDialog type={type} onChange={handleSelect} />
                     <CommandEmpty>
                         <p className="text-xs text-muted-foreground">Categories not found.</p>
                     </CommandEmpty>
