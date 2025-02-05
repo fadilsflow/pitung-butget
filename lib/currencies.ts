@@ -1,4 +1,9 @@
-export const currencies = [
+export interface Currency {
+    value: string
+    label: string
+}
+
+export const currencies: Currency[] = [
     {
         value: "IDR",
         label: "Rp Rupiah",
@@ -19,7 +24,6 @@ export const currencies = [
         label: "¥ Yen",
         locale: "ja-JP",
     }
-
 ]
 
-export type Currency = (typeof currencies)[0]
+export type currency = (typeof currencies)[0]
