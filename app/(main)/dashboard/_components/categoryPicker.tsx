@@ -13,10 +13,10 @@ import { cn } from "@/lib/utils"
 
 interface CategoryPickerProps {
     type: TransactionType
-    onSuccesCallback: (category: Category) => void
+    SuccesCallback: (category: Category) => void
 }
 
-function CategoryPicker({ type, onSuccesCallback }: CategoryPickerProps) {
+function CategoryPicker({ type, SuccesCallback }: CategoryPickerProps) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState<string>("")
 
@@ -28,13 +28,13 @@ function CategoryPicker({ type, onSuccesCallback }: CategoryPickerProps) {
     const selectedCategory = categoriesQuery.data?.find(
         (category: Category) => category.name === value
     )
-    const succesCallback = useCallback((category: Category) => {
+    const handleSelect = useCallback((category: Category) => {
         setValue(category.name)
-        setOpen(prev => !prev)
-        onSuccesCallback(category)
-    }, [setValue, setOpen, onSuccesCallback])
+        setOpen(false)
+        SuccesCallback(category)
+    }, [setValue, setOpen, SuccesCallback])
 
-    
+
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -47,7 +47,7 @@ function CategoryPicker({ type, onSuccesCallback }: CategoryPickerProps) {
             <PopoverContent className="w-[200px] p-0">
                 <Command>
                     <CommandInput placeholder="Search category" />
-                    <CreateCategoryDialog type={type} onSuccesCallback={succesCallback}/>
+                    <CreateCategoryDialog type={type} SuccesCallback={handleSelect} />
                     <CommandEmpty>
                         <p className="text-xs text-muted-foreground">Categories not found.</p>
                     </CommandEmpty>
@@ -56,10 +56,7 @@ function CategoryPicker({ type, onSuccesCallback }: CategoryPickerProps) {
                             {categoriesQuery.data?.map((category: Category) => (
                                 <CommandItem
                                     key={category.name}
-                                    onSelect={() => {
-                                        setValue(category.name)
-                                        setOpen(false)
-                                    }}
+                                    onSelect={() => handleSelect(category)}
                                 >
                                     <CategoryRow category={category} />
                                     <Check

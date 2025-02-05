@@ -78,7 +78,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                     <FormItem>
                                         <FormLabel>Category</FormLabel>
                                         <FormControl>
-                                            <CategoryPicker type={type} />
+                                            <CategoryPicker type={type} SuccesCallback={field.onChange} />
                                         </FormControl>
                                         <FormDescription>Select a category for the transaction</FormDescription>
                                     </FormItem>
