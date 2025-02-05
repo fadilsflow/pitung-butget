@@ -104,7 +104,7 @@ export function CurrencySelect() {
         <SkeletonWrapper isLoading={isLoading}>
             <Drawer open={open} onOpenChange={setOpen}>
                 <DrawerTrigger asChild>
-                    <Button variant="outline" disabled={isLoading} className="w-[150px] justify-start">
+                    <Button variant="outline" disabled={isLoading} className="w-full justify-start">
                         {selectedOption ? selectedOption.label : "+ Set Currency"}
                     </Button>
                 </DrawerTrigger>

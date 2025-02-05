@@ -12,10 +12,9 @@ const Page = async () => {
         redirect("/sign-in");
     }
 
-    const user_metadata = user.user_metadata;
     return (
         <div>
-            
+            <h1>hello world</h1>
         </div>
     )
 }

@@ -17,6 +17,7 @@ const Page = async () => {
 
     return (
         <div className="container max-w-md mx-auto p-4 min-h-screen flex items-center justify-center">
+            <h1>hello world</h1>
             <Card className="w-full">
                 <CardHeader className="flex flex-col items-center space-y-4">
                     <div className="relative">
