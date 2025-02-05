@@ -79,7 +79,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                             )}
                         />
 
-                        <div className="flex items-center justify-between gap2">
+                        <div className="grid grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
                                 name="category"
@@ -89,7 +89,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                         <FormControl>
                                             <CategoryPicker type={type} onChange={handleCategoryChange} />
                                         </FormControl>
-                                        <FormDescription>Select a category for the transaction</FormDescription>
+                                        <FormDescription>Select a category</FormDescription>
                                     </FormItem>
                                 )}
                             />
@@ -103,7 +103,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button variant={"outline"} className={cn(
-                                                        "w-[200px] pl-3 text-left font-normal",
+                                                        "w-full pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
                                                     )}>
                                                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
@@ -115,9 +115,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                                 <Calendar mode="single" selected={field.value} onSelect={field.onChange} />
                                             </PopoverContent>
                                         </Popover>
-                                        
-                                        <FormDescription>Select a category for the transaction</FormDescription>
-                                        <FormMessage />
+                                        <FormDescription>Select transaction date</FormDescription>
                                     </FormItem>
                                 )}
                             />
@@ -127,13 +125,13 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                     </form>
                 </Form>
                 <DialogFooter>
-                            {/* <DialogClose asChild>
+                    {/* <DialogClose asChild>
                                 <Button variant={"secondary"} onClick={() => {
                                     form.reset()
                                 }}>Cancel</Button>
                             </DialogClose>
                             <Button type="submit" disabled={isPending}>{!isPending ? "Create" : <Loader2 className="w-4 h-4 animate-spin" />}</Button> */}
-                        </DialogFooter>
+                </DialogFooter>
             </DialogContent >
         </Dialog >
     )
