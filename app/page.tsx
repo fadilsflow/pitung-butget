@@ -98,8 +98,8 @@ export default async function Home() {
                 </CardHeader>
                 <CardContent>
                   <p>
-                    "Pitung Budget has completely transformed how I manage my money. It's so easy to use and actually
-                    makes budgeting fun!"
+                    &quot;Pitung Budget has completely transformed how I manage my money. It&apos;s so easy to use and actually
+                    makes budgeting fun!&quot;
                   </p>
                   <p className="mt-2 font-semibold">- Alex, 22</p>
                 </CardContent>
@@ -110,8 +110,8 @@ export default async function Home() {
                 </CardHeader>
                 <CardContent>
                   <p>
-                    "I never thought I'd be able to save money, but Pitung Budget made it possible. The goal-setting
-                    feature is a game-changer!"
+                  &quot;I never thought I&apos;d be able to save money, but Pitung Budget made it possible. The goal-setting
+                    feature is a game-changer!&quot;
                   </p>
                   <p className="mt-2 font-semibold">- Sam, 19</p>
                 </CardContent>
