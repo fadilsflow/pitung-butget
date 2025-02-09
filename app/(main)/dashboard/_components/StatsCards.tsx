@@ -3,7 +3,7 @@
 import { DateToUTCDate, GetFormaterCurrency } from "@/lib/helpers"
 import { UserSettings } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
-import { TrendingDown, TrendingUp } from "lucide-react"
+import { TrendingDown, TrendingUp, Wallet } from "lucide-react"
 import { useCallback, useMemo } from "react"
 import CountUp from "react-countup"
 import { Card } from "@/components/ui/card"
@@ -61,6 +61,15 @@ function StatsCards({
                     title="Expense"
                     icon={<TrendingDown className="h-12 w-12" />}
                     color="bg-rose-500/15 text-rose-500"
+                />
+            </SkeletonWrapper>
+            <SkeletonWrapper isLoading={statsQuery.isFetching}>
+                <StatsCard
+                    formater={formater}
+                    value={balance}
+                    title="Balance"
+                    icon={<Wallet className="h-12 w-12" />}
+                    color="bg-violet-500/15 text-violet-500"
                 />
             </SkeletonWrapper>
 
