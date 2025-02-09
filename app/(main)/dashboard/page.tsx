@@ -41,6 +41,7 @@ const Page = async () => {
 
 
             </div>
+            <Overview userSettings={userSettings} />
         </div>
     )
 }
