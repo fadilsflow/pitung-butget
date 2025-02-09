@@ -1,6 +1,7 @@
 export interface Currency {
     value: string
     label: string
+    locale: string
 }
 
 export const currencies: Currency[] = [
