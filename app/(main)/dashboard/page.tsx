@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import CreateTransactionDialog from "./_components/CreateTransactionDialog";
 import Overview from "./_components/overview";
+import { prisma } from "@/lib/prisma";
 
 
 const Page = async () => {
@@ -14,6 +15,12 @@ const Page = async () => {
     if (!user) {
         redirect("/sign-in");
     }
+
+    const userSettings = await prisma.userSettings.findUnique({
+        where: {
+            userId: user.id
+        }
+    })
 
     return (
         <div className="h-full bg-background">
@@ -36,13 +43,10 @@ const Page = async () => {
                 </div>
             </div>
             <div className="container flex flex-wrap gap-4 justify-between py-5 px-10">
-                <div className="flex flex-col gap-2 ">
-                    <h1 className="text-2xl font-bold">Overview</h1>
-                </div>
 
+                <Overview userSettings={userSettings} />
 
             </div>
-            <Overview userSettings={userSettings} />
         </div>
     )
 }
