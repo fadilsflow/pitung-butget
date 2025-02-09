@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { redirect } from "next/navigation";
 import CreateTransactionDialog from "./_components/CreateTransactionDialog";
+import Overview from "./_components/overview";
 
 
 const Page = async () => {
