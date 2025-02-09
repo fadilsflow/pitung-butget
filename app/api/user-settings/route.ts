@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest ) {
+export async function GET(request: NextRequest) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
