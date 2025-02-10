@@ -17,8 +17,8 @@ export async function TopNav() {
     const { data: { user } } = await supabase.auth.getUser();
 
     return (
-        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
-            <div className="container flex h-16 items-center justify-between border-b">
+        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+            <div className="container flex h-16 items-center justify-between">
                 <div className="flex gap-6 md:gap-10">
                     <Link href="/dashboard" className="flex items-center space-x-2 pl-10">
                         <span className="inline-block text-xl font-bold text-primary">Pitung Butget</span>
