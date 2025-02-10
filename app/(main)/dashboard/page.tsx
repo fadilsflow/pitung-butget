@@ -7,8 +7,6 @@ import CreateTransactionDialog from "./_components/CreateTransactionDialog";
 import Overview from "./_components/overview";
 import { prisma } from "@/lib/prisma";
 import { Separator } from "@/components/ui/separator";
-import { Clock } from "lucide-react";
-
 
 
 const getGreeting = () => {
@@ -50,7 +48,6 @@ const Page = async () => {
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 text-muted-foreground">
-                            <Clock className="h-5 w-5" />
                             <span className="text-sm">{getGreeting()}</span>
                         </div>
                         <h1 className="text-3xl font-bold tracking-tight">

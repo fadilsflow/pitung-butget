@@ -6,34 +6,36 @@ import { CreateTransactionSchema, CreateTransactionSchemaType } from "@/schema/t
 import { redirect } from "next/navigation";
 
 export async function CreateTransaction(form: CreateTransactionSchemaType) {
-    const parseBody = CreateTransactionSchema.safeParse(form)
+    const parseBody = CreateTransactionSchema.safeParse(form);
 
     if (!parseBody.success) {
-        throw new Error("Invalid form data")
+        throw new Error("Invalid form data");
     }
 
-    const supabase = createClient()
-    const { data: { user } } = await (await supabase).auth.getUser()
+    const supabase = createClient();
+    const { data: { user } } = await (await supabase).auth.getUser();
+
     if (!user) {
-        redirect("/sign-in")
+        redirect("/sign-in");
     }
 
     const { amount, category, date, description, type } = parseBody.data;
 
+    // Cek apakah kategori yang dipilih valid
     const categoryRow = await prisma.category.findFirst({
         where: {
             userId: user.id,
             name: category,
-        }
-    })
+        },
+    });
 
     if (!categoryRow) {
-        throw new Error("category not found")
+        throw new Error("Category not found");
     }
 
-
+    // Buat transaksi baru
     await prisma.$transaction([
-        // create user transaction
+        // Buat transaksi
         prisma.transaction.create({
             data: {
                 UserId: user.id,
@@ -43,10 +45,9 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                 type,
                 category: categoryRow.name,
                 categoryIcon: categoryRow.icon,
-
-            }
+            },
         }),
-        // update  month aggregate table
+        // Update tabel MonthHistory
         prisma.monthHistory.upsert({
             where: {
                 userId_day_month_year: {
@@ -54,7 +55,7 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                     day: date.getUTCDate(),
                     month: date.getUTCMonth(),
                     year: date.getUTCFullYear(),
-                }
+                },
             },
             create: {
                 userId: user.id,
@@ -63,7 +64,6 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                 year: date.getUTCFullYear(),
                 expenses: type === "expense" ? amount : 0,
                 income: type === "income" ? amount : 0,
-
             },
             update: {
                 expenses: {
@@ -72,18 +72,16 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                 income: {
                     increment: type === "income" ? amount : 0,
                 },
-            }
-
+            },
         }),
-        // update year agregate table
-
+        // Update tabel YearHistory
         prisma.yearHistory.upsert({
             where: {
                 userId_month_year: {
                     userId: user.id,
                     month: date.getUTCMonth(),
                     year: date.getUTCFullYear(),
-                }
+                },
             },
             create: {
                 userId: user.id,
@@ -91,7 +89,6 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                 year: date.getUTCFullYear(),
                 expenses: type === "expense" ? amount : 0,
                 income: type === "income" ? amount : 0,
-
             },
             update: {
                 expenses: {
@@ -100,11 +97,7 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
                 income: {
                     increment: type === "income" ? amount : 0,
                 },
-            }
-
-        })
-
-
-    ])
-
+            },
+        }),
+    ]);
 }

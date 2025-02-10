@@ -40,7 +40,6 @@ function CreateTransactionDialog({ trigger, type }: Props) {
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
 
-    // Diubah ke useMutation yang benar
     const { mutate, isPending } = useMutation({
         mutationFn: CreateTransaction,
         onSuccess: () => {
@@ -55,11 +54,11 @@ function CreateTransactionDialog({ trigger, type }: Props) {
             form.reset();
             setOpen(false); // Langsung set ke false untuk menutup dialog
         },
-        onError: () => {
-            toast.error("Failed to create transaction", {
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to create transaction", {
                 id: "create-transaction",
             });
-        }
+        },
     });
 
     const handleCategoryChange = useCallback(
@@ -183,7 +182,11 @@ function CreateTransactionDialog({ trigger, type }: Props) {
                                                             !field.value && "text-muted-foreground"
                                                         )}
                                                     >
-                                                        {field.value ? format(field.value, "PPP") : "Pick a date"}
+                                                        {field.value ? (
+                                                            format(field.value, "PPP")
+                                                        ) : (
+                                                            <span>Pick a date</span>
+                                                        )}
                                                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                     </Button>
                                                 </FormControl>

@@ -39,7 +39,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
                         />
                     </div>
                 </div>
-                <div className="container flex flex-col gap-2 ">
+                <div className="container flex flex-col gap-4 ">
                     <StatsCards
                         userSettings={userSettings}
                         from={dateRange.from}
@@ -49,6 +49,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
                         userSettings={userSettings}
                         from={dateRange.from}
                         to={dateRange.to} />
+                    
                 </div>
 
             </div>

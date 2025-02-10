@@ -43,23 +43,23 @@ model Transaction {
   categoryIcon String
 }
 
-model MonthHistory {
-  userId   String
-  day      Int
-  month    Int
-  year     Int
-  income   Float
-  expenses Float
+  model MonthHistory {
+    userId   String
+    day      Int
+    month    Int
+    year     Int
+    income   Float
+    expenses Float
 
-  @@id([userId, day, month, year])
-}
+    @@id([userId, day, month, year])
+  }
 
-model YearHistory {
-  userId   String
-  month    Int
-  year     Int
-  income   Float
-  expenses Float
+  model YearHistory {
+    userId   String
+    month    Int
+    year     Int
+    income   Float
+    expenses Float
 
-  @@id([userId, month, year])
-}
+    @@id([userId, month, year])
+  }
