@@ -18,21 +18,16 @@ const getGreeting = () => {
     return "Good evening";
 };
 
-const getUserDisplayName = (user: any) => {
-    // Prioritize user metadata name
-    const fullName = user?.user_metadata?.full_name?.trim();
-    if (fullName) {
-        // Handle multiple spaces and extract first name
-        const firstName = fullName.split(/\s+/)[0];
-        return firstName;
-    }
-
-    // Fallback to email username
-    const email = user?.email?.split("@")[0];
-    if (email) return email;
-
-    // Ultimate fallback
-    return "Friend";
+const getMotivationalMessage = () => {
+    const messages = [
+        "Let's make today productive!",
+        "Ready to take control of your finances?",
+        "Your goals are within reach!",
+        "Time to check your finances!",
+        "What would you like to achieve today?",
+        "Let's track your progress together!",
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
 };
 const Page = async () => {
     const supabase = await createClient();
@@ -47,45 +42,42 @@ const Page = async () => {
         supabase.from("profiles").select("first_name").eq("id", user.id).single()
     ]);
 
-    const displayName = getUserDisplayName({
-        ...user,
-        ...profile?.data
-    });
 
     return (
         <div className="h-full bg-background">
-            <div className=" container flex flex-wrap justify-between   border-b py-5 px-10">
-                <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                        <Clock className="h-5 w-5" />
-                        <span className="text-sm">{getGreeting()}</span>
+            <div className=" container px-10 py-5">
+                {/* Header Section */}
+                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <Clock className="h-5 w-5" />
+                            <span className="text-sm">{getGreeting()}</span>
+                        </div>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            {getMotivationalMessage()}
+                        </h1>
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Welcome back,{" "}
-                        <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-                            {displayName}
-                        </span>
-                    </h1>
-                </div>
-                <div className="flex items-center gap-4">
-                    <CreateTransactionDialog trigger={
-                        <Button >New income</Button>}
-                        type="income"
-                    />
+                    <div className="flex flex-wrap gap-2">
+                        <CreateTransactionDialog trigger={
+                            <Button variant={"outline"} className="w-full md:w-auto bg-green-700 border-green-500 hover:bg-green-900  font-bold text-white hover:text-white " >New income</Button>}
+                            type="income"
+                        />
 
-                    <CreateTransactionDialog trigger={
-                        <Button >New expense</Button>}
-                        type="expense"
-                    />
+                        <CreateTransactionDialog trigger={
+                            <Button variant={"outline"} className="w-full md:w-auto bg-red-700 border-red-500 hover:bg-red-900  font-bold text-white hover:text-white " >New expense</Button>}
+                            type="expense"
+                        />
+                    </div>
                 </div>
             </div>
             <Separator />
-            <div className="container flex flex-wrap gap-4 justify-between py-5 px-10">
 
+            {/* Overview Section */}
+            <div className="grid gap-4">
                 <Overview userSettings={userSettings} />
-
             </div>
         </div>
+
     )
 }
 

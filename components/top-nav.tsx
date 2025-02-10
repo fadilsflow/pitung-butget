@@ -17,10 +17,10 @@ export async function TopNav() {
     const { data: { user } } = await supabase.auth.getUser();
 
     return (
-        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b px-10">
             <div className="container flex h-16 items-center justify-between">
                 <div className="flex gap-6 md:gap-10">
-                    <Link href="/dashboard" className="flex items-center space-x-2 pl-10">
+                    <Link href="/dashboard" className="flex items-center space-x-2 ">
                         <span className="inline-block text-xl font-bold text-primary">Pitung Butget</span>
                     </Link>
                     <nav className="hidden md:flex gap-6 items-center">
@@ -36,7 +36,7 @@ export async function TopNav() {
                     </nav>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <nav className="flex items-center space-x-4 pr-10">
+                    <nav className="flex items-center space-x-4 ">
                         <ModeToggle />
                         <DropdownProfile
                             avatarUrl={user?.user_metadata?.avatar_url}

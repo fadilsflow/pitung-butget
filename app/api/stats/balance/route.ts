@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         })
     }
 
-    const stats  = await getBalanceStats(
+    const stats = await getBalanceStats(
         user.id,
         queryParams.data.from,
         queryParams.data.to
@@ -43,7 +43,7 @@ async function getBalanceStats(
         by: ["type"],
         where: {
             UserId: userId,
-            date:{
+            date: {
                 gte: from,
                 lte: to
             }
@@ -52,10 +52,9 @@ async function getBalanceStats(
             amount: true
         }
     })
-    return{
+    return {
         expense: totals.find((t) => t.type === "expense")?._sum.amount || 0,
         income: totals.find((t) => t.type === "income")?._sum.amount || 0,
     }
 
 }
-    

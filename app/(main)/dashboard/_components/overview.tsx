@@ -16,7 +16,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
     })
 
     return (
-        <>
+        <div className="px-10">
             <div className="container flex flex-wrap items-center justify-between gap-2 py-6">
                 <h2 className="text-3xl font-bold">Overview</h2>
                 <div className="flex flex-wrap items-center gap-6">
@@ -39,7 +39,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
                         />
                     </div>
                 </div>
-                <div className="container flex flex-col gap-2">
+                <div className="container flex flex-col gap-2 ">
                     <StatsCards
                         userSettings={userSettings}
                         from={dateRange.from}
@@ -52,7 +52,7 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
                 </div>
 
             </div>
-        </>
+        </div>
     )
 }
 
