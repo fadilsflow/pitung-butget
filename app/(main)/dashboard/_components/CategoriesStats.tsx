@@ -8,7 +8,7 @@ import { DateToUTCDate, GetFormaterCurrency } from "@/lib/helpers"
 import type { TransactionType } from "@/lib/types"
 import type { UserSettings } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
-import { CreditCard, TrendingDown, TrendingUp, Wallet } from "lucide-react"
+//import { CreditCard, TrendingDown, TrendingUp, Wallet } from "lucide-react"
 import { useMemo } from "react"
 
 function CategoriesStats({

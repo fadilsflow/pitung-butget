@@ -72,6 +72,7 @@ const Page = async () => {
             {/* Overview Section */}
             <div className="grid gap-4">
                 <Overview userSettings={userSettings} />
+                <History userSettings={userSettings} />
             </div>
         </div>
 
